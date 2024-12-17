@@ -18,4 +18,66 @@
 		WHERE
 			`id` = #{id}
 	</select>
+	<!-- 예제 2-1 -->
+	<insert id="insertReview" parameterType="com.example.lesson03.domain.Review">
+		INSERT INTO `new_review`
+		(
+			`storeId`
+			,`menu`
+			,`userName`
+			,`point`
+			,`review`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{storeId}
+			, #{menu}
+			, #{userName}
+			, #{point}
+			, #{review}
+			, NOW()
+			, NOW()
+		)
+	</insert>
+	<!-- 예제 2-2 -->
+	<insert id="insertReviewField" parameterType="map">
+		INSERT INTO `new_review`
+		(
+			`storeId`
+			,`menu`
+			,`userName`
+			,`point`
+			,`review`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{storeId}
+			, #{menu}
+			, #{userName}
+			, #{point}
+			, #{review}
+			, NOW()
+			, NOW()
+		)
+	</insert>
+	<update id="updateReviewById" parameterType="map">
+		UPDATE `new_review`
+		SET
+			`review` = #{review}
+			, `updatedAt` = NOW()
+		WHERE
+			`id` = #{id}
+	</update>
+	
+	<delete id="deleteReviewById" parameterType="int">
+		DELETE
+		FROM
+			`new_review`
+		WHERE
+			`id` = #{id}
+	</delete>
 </mapper>
