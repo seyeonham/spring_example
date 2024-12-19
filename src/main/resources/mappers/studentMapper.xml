@@ -24,7 +24,7 @@
 			, NOW()
 		)
 	</insert>
-	<select id="selectStudentById" resultType="com.quiz.lesson04.domain.Realtor">
+	<select id="selectStudentById" resultType="com.example.lesson04.domain.Student">
 		SELECT
 			`id`
 			,`name`
