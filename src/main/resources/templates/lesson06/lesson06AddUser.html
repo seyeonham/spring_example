@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>회원가입</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>회원가입</h1>
+		<form method="post" action="/lesson06/ex01/sign-up">
+			<div class="form-group">
+				<label for="name">이름</label>
+				<input type="text" class="form-control col-4" id="name" name="name">
+			</div>
+			<div class="form-group">
+				<label for="yyyymmdd">생년월일</label>
+				<input type="text" class="form-control col-4" id="yyyymmdd" name="yyyymmdd">
+			</div>
+			<div class="form-group">
+				<label for="email">이메일</label>
+				<input type="text" class="form-control col-4" id="email" name="email">
+			</div>
+			<div class="form-group">
+				<label for="introduce">자기소개</label>
+				<textarea id="introduce" name="introduce" class="form-control"></textarea>
+			</div>
+			
+			<!-- AJAX만 동작하도록 3종세트를 깬다.(submit -> button) -->
+			<input type="button" id="joinBtn" class="btn btn-success" value="회원가입">
+		</form>
+	</div>
+	
+	<script>
+		$(document).ready(function() {
+			// 1) jquery의 submit - form태그
+			/*
+			$("form").on("submit", function(e) {
+				e.preventDefault(); // submit을 막는다.
+				
+				// validation
+				let name = $("input[name=name]").val().trim();
+				let yyyymmdd = $("#yyyymmdd").val().trim();
+				let email = $("#email").val().trim();
+				let introduce = $("#introduce").val().trim();
+				
+				if (name.length < 1) {
+					alert("이름을 입력하세요.");
+					return false; // submit 이벤트 경우 return false로 해주어야 동작함
+				}
+				
+				if (yyyymmdd.length == "") {
+					alert("생년월일을 입력하세요.")
+					return false;
+				}
+				
+				if (!email) {
+					alert("이메일을 입력하세요.")
+					return false;
+				}
+				
+				alert("서브밋");
+			}); */
+			
+			// 2) jquery의 AJAX 통신 사용
+			$("#joinBtn").on("click", function() {
+				// alert("AJAX")
+				
+				// validation
+				let name = $("input[name=name]").val().trim();
+				let yyyymmdd = $("#yyyymmdd").val().trim();
+				let email = $("#email").val().trim();
+				let introduce = $("#introduce").val().trim();
+				
+				if (name.length < 1) {
+					alert("이름을 입력하세요.");
+					return; // submit 이벤트 경우 return false로 해주어야 동작함
+				}
+				
+				if (yyyymmdd.length == "") {
+					alert("생년월일을 입력하세요.")
+					return;
+				}
+				
+				if (!email) {
+					alert("이메일을 입력하세요.")
+					return;
+				}
+				
+				console.log(name);
+				console.log(yyyymmdd);
+				console.log(email);
+				console.log(introduce);
+				
+				// AJAX 통신: request, response
+				$.ajax({
+					// request
+					type:"post"
+					, url:"/lesson06/ex01/sign-up"
+					, data:{"name":name, "yyyymmdd":yyyymmdd, "email":email, "introduce":introduce}
+				
+					// response + callback 함수
+					, success:function(data) { // data 파라미터: 응답값(String) (위의 data와는 다름)
+						alert("성공");
+						if (data == "성공") {
+						location.href= "/lesson06/ex01/after-add-user-view"; // GET 요청 - 가입 완료 화면
+						}
+					}
+					, error: function(xhr, status, error) {
+						alert("회원가입에 실패했습니다.")
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
