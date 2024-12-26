@@ -37,4 +37,13 @@
 		ORDER BY `id` DESC
 		LIMIT 1
 	</select>
+	<select id="isDuplicateByName" parameterType="String" resultType="boolean">
+	<!-- resultType을 boolean으로 하면 count가 0일때 false, 0이 아닌 수이면 true이기 때문에 중복 -->
+		SELECT
+			COUNT(*)
+		FROM
+			`new_user`
+		WHERE
+			`name` = #{name}
+	</select>
 </mapper>
