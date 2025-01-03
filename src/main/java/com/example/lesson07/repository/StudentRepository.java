@@ -3,6 +3,8 @@ package com.example.lesson07.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.lesson07.entity.StudentEntity;
 
@@ -24,4 +26,12 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Integer>
 	public List<StudentEntity> findByNameStartingWith(String keyword111); // 메소드명은 중요하지 않음
 	public List<StudentEntity> findByIdBetween(int startId, int endId); // 메소드명은 중요하지 않음
 	
+	// ex02/2 	JPQL 엔티티 조회 => SQL query문 아님에 주의
+//	@Query(value = "select s from StudentEntity s where s.dreamJob = :dreamJob")
+//	public List<StudentEntity> findByDreamJob(@Param("dreamJob") String dreamJob);
+	
+	// ex02/2 	native query => SQL에 직접 조회(Mysql)
+	// Param 임포트할 때 springframework repository로 해야함 !!
+	@Query(value = "select * from `new_student` where `dreamJob` = :dreamJob", nativeQuery = true)
+	public List<StudentEntity> findByDreamJob(@Param("dreamJob") String dreamJob);
 }
